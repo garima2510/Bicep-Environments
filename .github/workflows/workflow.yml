@@ -7,9 +7,6 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  
-
 jobs:
   lint: 
     uses: garima2510/Bicep-Environments/.github/workflows/lint.yml@main
