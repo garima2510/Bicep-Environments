@@ -8,25 +8,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint: 
+
+  # Lint the Bicep file.
+  lint:
     uses: garima2510/Bicep-Environments/.github/workflows/lint.yml@main
 
   # Deploy to the test environment.
-deploy-test:
-  uses: garima2510/Bicep-Environments/.github/workflows/deploy.yml@main
-  needs: lint
-  with:
-    environmentType: Test
-    resourceGroupName: rg-test
-  secrets:
-    AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS_TEST }}
+  deploy-test:
+    uses: garima2510/Bicep-Environments/.github/workflows/deploy.yml@main
+    needs: lint
+    with:
+      environmentType: Test
+      resourceGroupName: rg-test
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS_TEST }}
 
-# Deploy to the production environment.
-deploy-production:
-  uses: garima2510/Bicep-Environments/.github/workflows/deploy.yml@main
-  needs: deploy-test
-  with:
-    environmentType: Production
-    resourceGroupName: rg-prod
-  secrets:
-    AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
+  # Deploy to the production environment.
+  deploy-production:
+    uses: garima2510/Bicep-Environments/.github/workflows/deploy.yml@main
+    needs: deploy-test
+    with:
+      environmentType: Production
+      resourceGroupName: rg-prod
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
